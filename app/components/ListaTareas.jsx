@@ -8,7 +8,7 @@ export function ListaTareas({ tareas, cargarTareas }) {
     const options = {
       method: "DELETE",
     };
-    const response = await fetch(`/tareas/${tareaId}`, options);
+    const response = await fetch(`http://localhost:3000/tareas/${tareaId}`, options);
 
     if (response.ok) {
       cargarTareas();
@@ -26,9 +26,9 @@ export function ListaTareas({ tareas, cargarTareas }) {
     <ol>
       {tareas.map((tarea, index) => (
         <li key={index} style={error === index ? style : {}}>
-          {tarea}
-          <button onClick={() => borrarTarea(index)}>X</button>
-          <Link to={`/editar-tarea/${index}`}>Editar</Link>
+          {tarea.name}
+          <button onClick={() => borrarTarea(tarea.id)}>X</button>
+          <Link to={`/editar-tarea/${tarea.id}`}>Editar</Link>
         </li>
       ))}
     </ol>

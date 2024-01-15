@@ -7,24 +7,26 @@ export default function EditarTarea() {
 
   useEffect(() => {
     async function cargarTarea() {
-      const response = await fetch(`/tareas/${id}`);
+      const response = await fetch(`http://localhost:3000/tareas/${id}`);
       if (response.ok) {
-        const tarea = await response.text();
-        textAreaRef.current.value = tarea;
+        const tarea = response.json().then(body => {
+          textAreaRef.current.value = body.name
+        });
       } else {
-        window.location.href = "/app-tareas";
+        window.location.href = "/main";
       }
     }
-
     cargarTarea();
   }, []);
 
   async function actualizarTarea() {
     const datos = {
-      tarea: textAreaRef.current.value,
+      id: id,
+      userId: '1',
+      name: textAreaRef.current.value,
     };
 
-    const response = await fetch(`/tareas/${id}`, {
+    const response = await fetch(`http://localhost:3000/tareas/${id}`, {
       method: "PUT",
       body: JSON.stringify(datos),
       headers: {
@@ -33,7 +35,7 @@ export default function EditarTarea() {
     });
 
     if (response.ok) {
-      window.location.href = "/app-tareas";
+      window.location.href = "/main";
     }
   }
 

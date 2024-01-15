@@ -10,7 +10,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Tarea {
-id String @id @default(auto()) @map("_id") @db.ObjectId
-descripcion String
+model User {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    username String
+    password String
+}
+
+model Item {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    userId String
+    name String
 }

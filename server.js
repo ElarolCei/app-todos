@@ -1,11 +1,14 @@
 const path = require("path");
-
 const { createRequestHandler } = require("@remix-run/express");
 const { installGlobals } = require("@remix-run/node");
 const compression = require("compression");
 const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const cors = require('cors');
+
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 installGlobals();
 
@@ -13,9 +16,18 @@ const BUILD_DIR = path.join(process.cwd(), "build");
 
 const app = express();
 
+const corsOptions = function(req, res, next){
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers',
+        'Content-Type, Authorization, Content-Length, X-Requested-With');
+    next();
+}
+
 // Middlewares
 app.use(bodyParser.json());
 app.use(compression());
+app.use(corsOptions);
 app.disable("x-powered-by");
 app.use(
   "/build",
@@ -24,60 +36,68 @@ app.use(
 app.use(express.static("public", { maxAge: "1h" }));
 app.use(morgan("tiny"));
 
-// Servidor tareas
-const tareas = ['Comprar el pan', 'Salir a correr'];
-
-app.get('/tareas', (req, res) => {
-  res.status(200).send(tareas);
+app.get('/tareas', async (req, res) => {
+    const items = await prisma.Item.findMany();
+    res.status(200).send(items);
 });
 
-app.get('/tareas/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  if (Number.isNaN(id) || tareas[id] === undefined) {
-      res.status(400).send("ERROR: El id de la tarea no es un número o no existe.");
-      return;
-  }
-
-  const tarea = tareas[id];
-  res.status(200).send(tarea);
-});
-
-app.post('/tareas', (req, res) => {
-    const tarea = req.body.tarea;
-    if (tarea) {
-        tareas.push(tarea);
-        res.status(201).send();
+app.get('/tareas/:id', async (req, res) => {
+    const id = req.params.id;
+    const itemById = await prisma.Item.findUnique({
+        where: {
+            id: id
+        }
+    });
+    if (itemById) {
+        res.status(200).send(itemById);
     } else {
-        res.status(400).send("ERROR: La propiedad 'tarea' del body no tiene valor.");
+        res.status(404).send();
     }
 });
 
-app.put('/tareas/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  if (Number.isNaN(id) || tareas[id] === undefined) {
-      res.status(400).send("ERROR: El id de la tarea no es un número o no existe.");
-      return;
-  }
-
-  const tarea = req.body.tarea;
-  if (!tarea) {
-      res.status(400).send("ERROR: La propiedad 'tarea' del body no tiene valor.");
-      return;
-  }
-
-  tareas[id] = tarea;
-  res.status(200).send();
+app.post('/tareas', async (req, res) => {
+    const tarea = req.body.tarea;
+    const newItem = await prisma.Item.create({
+        data: {
+            name: tarea,
+            userId: '1'
+        }
+    });
+    res.status(201).send();
 });
 
-app.delete('/tareas/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  if (Number.isNaN(id) || tareas[id] === undefined) {
-      res.status(400).send("ERROR: El id de la tarea no es un número o no existe.");
-      return;
-  }
+app.put('/tareas/:id', async (req, res) => {
+    const id = req.params.id;
+    const tarea = req.body.tarea;
+    const updatedItem = await prisma.Item.update({
+        where: {
+            id: id
+        },
+        data: {
+            name: req.body.name,
+            userId: '1'
+        }
+    });
+    res.status(200).send();
+});
 
-  tareas.splice(id, 1);
-  res.status(200).send();
+app.delete('/tareas/:id', async (req, res) => {
+    const id = req.params.id;
+    const deletedItem = await prisma.Item.delete({
+        where: {
+            id: id
+        }
+    });
+    res.status(200).send();
+});
+
+// Para prevenir errors de CORS
+app.options('/tareas', (req, res) => {
+    res.status(200).send();
+});
+
+app.options('/tareas/:id', (req, res) => {
+    res.status(200).send();
 });
 
 // Servidor Remix

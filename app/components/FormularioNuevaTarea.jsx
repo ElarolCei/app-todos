@@ -17,7 +17,7 @@ export function FormularioNuevaTarea({ cargarTareas }) {
       },
     };
 
-    const response = await fetch("/tareas", options);
+    const response = await fetch("http://localhost:3000/tareas", options);
     if (response.ok) {
       inputRef.current.value = "";
       cargarTareas();
