@@ -29,10 +29,7 @@ app.use(bodyParser.json());
 app.use(compression());
 app.use(corsOptions);
 app.disable("x-powered-by");
-app.use(
-  "/build",
-  express.static("public/build", { immutable: true, maxAge: "1y" })
-);
+app.use("/build", express.static("public/build", { immutable: true, maxAge: "1y" }));
 app.use(express.static("public", { maxAge: "1h" }));
 app.use(morgan("tiny"));
 
@@ -122,7 +119,42 @@ const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`Express server listening on port ${port}`);
+  cleanDatabase();
+  populateDatabase();
 });
+
+async function cleanDatabase() {
+    const users = await prisma.user.findMany();
+    for (const user of users) {
+      await prisma.user.delete({where: {id: user.id}});
+    }
+}
+
+async function populateDatabase() {
+    await createUser('elarol', 'elarol');
+    await createUser('damarur', 'damarur');
+    await createUser('username', 'password');
+}
+
+async function createUser(username, password) {
+    const foundUser = await findUser(username);
+    if (!foundUser) {
+        await prisma.user.create({
+            data: {
+                username: username,
+                password: password
+            }
+        })
+    }
+}
+
+async function findUser(username) {
+    return prisma.user.findFirst({
+        where: {
+            username: username
+        }
+    });
+}
 
 function purgeRequireCache() {
   // purge require cache on requests for "server side HMR" this won't let
