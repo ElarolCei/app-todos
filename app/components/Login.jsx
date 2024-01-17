@@ -20,7 +20,7 @@ export function Login() {
     }
 
     async function callBackend(data) {
-        const response = await fetch(`/login`, {
+        const response = await fetch(`http://localhost:3000/login`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {

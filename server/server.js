@@ -6,6 +6,8 @@ const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require('cors');
+const { authentication } = require("./authentication");
+const { cleanDatabase, populateDatabase } = require("./database");
 
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
@@ -33,12 +35,25 @@ app.use("/build", express.static("public/build", { immutable: true, maxAge: "1y"
 app.use(express.static("public", { maxAge: "1h" }));
 app.use(morgan("tiny"));
 
-app.get('/tareas', async (req, res) => {
+// Custom scripts
+cleanDatabase();
+populateDatabase();
+authentication(app);
+
+function authorized(req, res, next) {
+    if (!res.user || req.user.id !== req.params.userId) {
+        res.status(403).send("Unauthorized");
+        return;
+    }
+    next();
+}
+
+app.get('/tareas', authorized, async (req, res) => {
     const items = await prisma.Item.findMany();
     res.status(200).send(items);
 });
 
-app.get('/tareas/:id', async (req, res) => {
+app.get('/tareas/:id', authorized, async (req, res) => {
     const id = req.params.id;
     const itemById = await prisma.Item.findUnique({
         where: {
@@ -52,7 +67,7 @@ app.get('/tareas/:id', async (req, res) => {
     }
 });
 
-app.post('/tareas', async (req, res) => {
+app.post('/tareas', authorized, async (req, res) => {
     const tarea = req.body.tarea;
     const newItem = await prisma.Item.create({
         data: {
@@ -63,7 +78,7 @@ app.post('/tareas', async (req, res) => {
     res.status(201).send();
 });
 
-app.put('/tareas/:id', async (req, res) => {
+app.put('/tareas/:id', authorized, async (req, res) => {
     const id = req.params.id;
     const tarea = req.body.tarea;
     const updatedItem = await prisma.Item.update({
@@ -78,7 +93,7 @@ app.put('/tareas/:id', async (req, res) => {
     res.status(200).send();
 });
 
-app.delete('/tareas/:id', async (req, res) => {
+app.delete('/tareas/:id', authorized, async (req, res) => {
     const id = req.params.id;
     const deletedItem = await prisma.Item.delete({
         where: {
@@ -89,11 +104,11 @@ app.delete('/tareas/:id', async (req, res) => {
 });
 
 // Para prevenir errors de CORS
-app.options('/tareas', (req, res) => {
+app.options('/tareas', authorized, (req, res) => {
     res.status(200).send();
 });
 
-app.options('/tareas/:id', (req, res) => {
+app.options('/tareas/:id', authorized, (req, res) => {
     res.status(200).send();
 });
 
@@ -119,42 +134,7 @@ const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`Express server listening on port ${port}`);
-  cleanDatabase();
-  populateDatabase();
 });
-
-async function cleanDatabase() {
-    const users = await prisma.user.findMany();
-    for (const user of users) {
-      await prisma.user.delete({where: {id: user.id}});
-    }
-}
-
-async function populateDatabase() {
-    await createUser('elarol', 'elarol');
-    await createUser('damarur', 'damarur');
-    await createUser('username', 'password');
-}
-
-async function createUser(username, password) {
-    const foundUser = await findUser(username);
-    if (!foundUser) {
-        await prisma.user.create({
-            data: {
-                username: username,
-                password: password
-            }
-        })
-    }
-}
-
-async function findUser(username) {
-    return prisma.user.findFirst({
-        where: {
-            username: username
-        }
-    });
-}
 
 function purgeRequireCache() {
   // purge require cache on requests for "server side HMR" this won't let

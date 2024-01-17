@@ -4,10 +4,10 @@
   "scripts": {
     "build": "remix build",
     "dev": "npm-run-all build --parallel \"dev:*\"",
-    "dev:node": "cross-env NODE_ENV=development nodemon --require dotenv/config ./server.js --watch ./server.js",
+    "dev:node": "cross-env NODE_ENV=development nodemon --require dotenv/config server/server.js --watch ./server.js",
     "dev:remix": "remix dev",
     "prisma": "npx prisma generate",
-    "start": "cross-env NODE_ENV=production node ./server.js",
+    "start": "cross-env NODE_ENV=production node server/server.js",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -17,13 +17,17 @@
     "@remix-run/node": "^1.16.0",
     "@remix-run/react": "^1.16.0",
     "@remix-run/serve": "^1.16.0",
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "isbot": "^3.6.8",
     "morgan": "^1.10.0",
+    "passport": "0.6.0",
+    "passport-local": "1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
