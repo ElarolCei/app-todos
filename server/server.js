@@ -1,143 +1,63 @@
-const path = require("path");
-const { createRequestHandler } = require("@remix-run/express");
-const { installGlobals } = require("@remix-run/node");
-const compression = require("compression");
-const express = require("express");
-const morgan = require("morgan");
-const bodyParser = require("body-parser");
+const path = require('path');
+const { createRequestHandler } = require('@remix-run/express');
+const { installGlobals } = require('@remix-run/node');
+const compression = require('compression');
+const express = require('express');
+const morgan = require('morgan');
 const cors = require('cors');
-const { authentication } = require("./authentication");
-const { cleanDatabase, populateDatabase } = require("./database");
+const bodyParser = require('body-parser');
 
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+const { authentication } = require('./authentication');
+const { cleanDatabase, populateDatabase } = require('./database');
+const apiTasks = require('./apis/tasks');
 
 installGlobals();
 
-const BUILD_DIR = path.join(process.cwd(), "build");
-
+const BUILD_DIR = path.join(process.cwd(), 'build');
 const app = express();
-
-const corsOptions = function(req, res, next){
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers',
-        'Content-Type, Authorization, Content-Length, X-Requested-With');
-    next();
-}
 
 // Middlewares
 app.use(bodyParser.json());
 app.use(compression());
-app.use(corsOptions);
-app.disable("x-powered-by");
-app.use("/build", express.static("public/build", { immutable: true, maxAge: "1y" }));
-app.use(express.static("public", { maxAge: "1h" }));
-app.use(morgan("tiny"));
+app.disable('x-powered-by');
+app.use('/build', express.static('public/build', { immutable: true, maxAge: '1y' }));
+app.use(express.static('public', { maxAge: '1h' }));
+app.use(morgan('tiny'));
+app.use(cors());
 
 // Custom scripts
 cleanDatabase();
 populateDatabase();
 authentication(app);
-
-function authorized(req, res, next) {
-    if (!res.user || req.user.id !== req.params.userId) {
-        res.status(403).send("Unauthorized");
-        return;
-    }
-    next();
-}
-
-app.get('/tareas', authorized, async (req, res) => {
-    const items = await prisma.Item.findMany();
-    res.status(200).send(items);
-});
-
-app.get('/tareas/:id', authorized, async (req, res) => {
-    const id = req.params.id;
-    const itemById = await prisma.Item.findUnique({
-        where: {
-            id: id
-        }
-    });
-    if (itemById) {
-        res.status(200).send(itemById);
-    } else {
-        res.status(404).send();
-    }
-});
-
-app.post('/tareas', authorized, async (req, res) => {
-    const tarea = req.body.tarea;
-    const newItem = await prisma.Item.create({
-        data: {
-            name: tarea,
-            userId: '1'
-        }
-    });
-    res.status(201).send();
-});
-
-app.put('/tareas/:id', authorized, async (req, res) => {
-    const id = req.params.id;
-    const tarea = req.body.tarea;
-    const updatedItem = await prisma.Item.update({
-        where: {
-            id: id
-        },
-        data: {
-            name: req.body.name,
-            userId: '1'
-        }
-    });
-    res.status(200).send();
-});
-
-app.delete('/tareas/:id', authorized, async (req, res) => {
-    const id = req.params.id;
-    const deletedItem = await prisma.Item.delete({
-        where: {
-            id: id
-        }
-    });
-    res.status(200).send();
-});
-
-// Para prevenir errors de CORS
-app.options('/tareas', authorized, (req, res) => {
-    res.status(200).send();
-});
-
-app.options('/tareas/:id', authorized, (req, res) => {
-    res.status(200).send();
-});
+apiTasks(app);
 
 // Servidor Remix
 app.all(
-  "*",
-  process.env.NODE_ENV === "development"
-    ? (req, res, next) => {
+  '*',
+  process.env.NODE_ENV === 'development' ? (req, res, next) => {
         purgeRequireCache();
-
+        console.log('Development mode');
         return createRequestHandler({
           build: require(BUILD_DIR),
           mode: process.env.NODE_ENV,
         })(req, res, next);
       }
-    : createRequestHandler({
-        build: require(BUILD_DIR),
-        mode: process.env.NODE_ENV,
+      : createRequestHandler({
+          build: require(BUILD_DIR),
+          mode: process.env.NODE_ENV,
       })
 );
 
 const port = process.env.PORT || 3000;
+const mode = process.env.NODE_ENV;
 
 app.listen(port, () => {
   console.log(`Express server listening on port ${port}`);
+  console.log(`Express server running on mode ${mode}`);
 });
 
 function purgeRequireCache() {
-  // purge require cache on requests for "server side HMR" this won't let
+  // purge require cache on requests for 'server side HMR' this won't let
   // you have in-memory objects between requests in development,
   // alternatively you can set up nodemon/pm2-dev to restart the server on
   // file changes, but then you'll have to reconnect to databases/etc on each
