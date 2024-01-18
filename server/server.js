@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const { authentication } = require('./authentication');
 const { cleanDatabase, populateDatabase } = require('./database');
 const apiTasks = require('./apis/tasks');
+const apiUsers = require("./apis/users");
 
 installGlobals();
 
@@ -30,6 +31,7 @@ cleanDatabase();
 populateDatabase();
 authentication(app);
 apiTasks(app);
+apiUsers(app);
 
 // Servidor Remix
 app.all(

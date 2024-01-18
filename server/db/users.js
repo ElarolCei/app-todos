@@ -20,7 +20,7 @@ async function createUser(username, password) {
     }
 }
 
-async function findUserByUsername(username) {
+function findUserByUsername(username) {
     return prisma.user.findFirst({
         where: {
             username: username
@@ -28,7 +28,7 @@ async function findUserByUsername(username) {
     });
 }
 
-async function findUserByUsernameRequired(username) {
+function findUserByUsernameRequired(username) {
     return prisma.user.findFirstOrThrow({
         where: {
             username: username
@@ -36,16 +36,75 @@ async function findUserByUsernameRequired(username) {
     });
 }
 
-async function findUserByIdRequired(id) {
+function findUserByIdRequired(id, includeItems = false) {
     return prisma.user.findFirstOrThrow({
         where: {
             id: id
+        },
+        include: {
+            items: includeItems,
         }
+    });
+}
+
+function createItem(name, userId) {
+    return prisma.item.create({
+        data: {
+            name: name,
+            user: {
+                connect: {
+                    id: userId,
+                },
+            },
+        },
+    });
+}
+
+async function findItemByIdAndUserId(itemId, userId) {
+    const item = await prisma.item.findUnique({
+        where: {
+            id: itemId,
+        },
+        include: {
+            user: true,
+        },
+    });
+    if (item === null) {
+        throw new Error("La tarea no existe");
+    }
+    if (item.userId !== userId) {
+        throw new Error("La tarea no pertenece al usuario.");
+    }
+    return item;
+}
+
+async function updateItem(itemId, userId, name) {
+    await findItemByIdAndUserId(itemId, userId);
+    return prisma.item.update({
+        where: {
+            id: itemId,
+        },
+        data: {
+            name: name,
+        },
+    });
+}
+
+async function deleteItem(itemId, userId) {
+    await findItemByIdAndUserId(itemId, userId);
+    return prisma.item.delete({
+        where: {
+            id: itemId,
+        },
     });
 }
 
 module.exports = {
     createUser,
     findUserByIdRequired,
-    findUserByUsernameRequired
+    findUserByUsernameRequired,
+    createItem,
+    deleteItem,
+    findItemByIdAndUserId,
+    updateItem
 }

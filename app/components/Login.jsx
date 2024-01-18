@@ -21,7 +21,7 @@ export function Login() {
         }).then(res => {
             if (res.status === 200) {
                 res.json().then(({id}) => {
-                    window.location.href = "/main";
+                    window.location.href = `/main/${id}`;
                 });
             } else {
                 setError("Usuario o contraseña incorrectos.");
