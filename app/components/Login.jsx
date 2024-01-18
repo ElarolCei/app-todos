@@ -1,33 +1,34 @@
-import {useRef} from "react";
+import {useRef, useState} from "react";
 
 export function Login() {
 
     const userRef = useRef();
     const passwordRef = useRef();
+    const [error, setError] = useState();
+
     async function validate() {
         const data = {
             username: userRef.current.value,
             password: passwordRef.current.value,
         };
         console.log('Credentials: ' + JSON.stringify(data));
-        // TODO validar contra el backend, guardar cookie en sesion, proteger rutas
-        /*
-        if (await callBackend(data)) {
-            window.location.href = "/main";
-        }
-        */
-        window.location.href = "/main";
-    }
-
-    async function callBackend(data) {
-        const response = await fetch(`http://localhost:3000/login`, {
+        fetch(`http://localhost:3000/login`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json",
             },
-        });
-        return response.ok;
+        }).then(res => {
+            if (res.status === 200) {
+                res.json().then(({id}) => {
+                    window.location.href = "/main";
+                });
+            } else {
+                setError("Usuario o contraseña incorrectos.");
+            }
+        }).catch(err => {
+            setError(err);
+        })
     }
 
     return (
@@ -41,6 +42,7 @@ export function Login() {
                 <label htmlFor="password">Contraseña</label>
                 <input type="password" id="password" ref={passwordRef}/>
                 <input type="submit" value="Login"/>
+                {error && <p className="text-red-600">{error}</p>}
             </form>
         </div>
     );
