@@ -27,8 +27,8 @@ app.use(morgan('tiny'));
 app.use(cors());
 
 // Custom scripts
-cleanDatabase();
-populateDatabase();
+// cleanDatabase();
+// populateDatabase();
 authentication(app);
 apiTasks(app);
 apiUsers(app);
