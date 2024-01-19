@@ -30,7 +30,7 @@ export function CreateItem({user, loadUser}) {
     return (
         <div>
             <form onSubmit={submit}>
-                <label htmlFor="nuevaTarea">Añadir item:</label>
+                <label htmlFor="nuevaTarea">Añade una nueva tarea:</label>
                 <input ref={inputRef} type="text" id="nuevaTarea"/>
                 <input type="submit" value="Crear"/>
             </form>

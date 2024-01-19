@@ -3,6 +3,10 @@ import {useEffect, useState} from 'react';
 import {CreateItem} from '../../../components/CreateItem';
 import {ItemList} from '../../../components/ItemList';
 
+export function links() {
+    return [{ rel: "stylesheet", href: "/styles/main.css" }];
+}
+
 export default function Main() {
 
     const {userId} = useParams();

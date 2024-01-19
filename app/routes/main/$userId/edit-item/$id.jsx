@@ -1,6 +1,10 @@
 import {useParams} from '@remix-run/react';
 import {useEffect, useRef} from 'react';
 
+export function links() {
+    return [{ rel: "stylesheet", href: "/styles/main.css" }];
+}
+
 export default function EditItem() {
     const {id, userId} = useParams();
     const textAreaRef = useRef();
