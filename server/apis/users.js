@@ -3,8 +3,6 @@ const {
 } = require('../db/users');
 
 function authorized(req, res, next) {
-    /*
-    console.log(JSON.stringify(req.user));
     if (!req.user) {
         res.redirect('/login');
         return;
@@ -12,7 +10,7 @@ function authorized(req, res, next) {
     if (req.user.id !== req.params.userId) {
         res.status(403).send();
         return;
-    }*/
+    }
     next();
 }
 
