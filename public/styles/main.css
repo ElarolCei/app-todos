@@ -8,23 +8,23 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+}
 
-  h2 {
+h2 {
     color: #333;
     font-size: 1.5em;
     margin-bottom: 0.5em;
     text-align: center;
-  }
+}
 
-  .text-form {
+.text-form {
     text-align: center;
     color: #555;
     font-size: 1.2em;
     margin-top: 0;
-  }
-  
-  form {
+}
+
+form {
     width: 100%; /* El formulario ocupa el ancho total */
     margin: 20px auto; /* Agregado un margen superior e inferior */
     padding: 20px;
@@ -32,23 +32,23 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
-  }
-  
-  label {
+}
+
+label {
     display: block;
     margin-bottom: 8px;
-  }
-  
-  input {
+}
+
+input {
     width: calc(100% - 20px);
     padding: 10px;
     margin-bottom: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
-  }
-  
-  input[type="submit"] {
+}
+
+input[type="submit"] {
     background-color: coral;
     color: white;
     cursor: pointer;
@@ -56,23 +56,23 @@ body {
     border-radius: 5px;
     display: block; /* Convertido a un elemento de bloque para centrarlo */
     margin: 0 auto; /* Centrado horizontalmente */
-  }
-  
-  input[type="submit"]:hover {
+}
+
+input[type="submit"]:hover {
     background-color: #d16666; /* Un tono más oscuro que el botón normal */
-  }
-  
-  .text-red-600 {
+}
+
+.text-red-600 {
     color: #e53e3e;
     margin-top: 8px;
-  }
-  
-  ol {
+}
+
+ol {
     list-style: none;
     padding: 0;
-  }
-  
-  li {
+}
+
+li {
     margin-bottom: 10px;
     padding: 10px;
     border: 1px solid #ccc;
@@ -81,24 +81,24 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  li button {
+}
+
+li button {
     background-color: coral;
     color: white;
     cursor: pointer;
     border: none;
     border-radius: 5px;
-  }
-  
-  li button:hover {
+}
+
+li button:hover {
     background-color: #d16666; /* Un tono más oscuro que el botón normal */
-  }
-  
-  /* Estilo adicional para elementos con error */
-  li.error {
+}
+
+/* Estilo adicional para elementos con error */
+li.error {
     border-color: #e53e3e;
     background-color: #f8d7da;
     color: #721c24;
-  }
+}
  

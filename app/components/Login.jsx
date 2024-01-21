@@ -34,7 +34,7 @@ export function Login() {
     return (
         <div>
             <h2>Bienvenid@</h2>
-            <p class= "text-form">¡Listo para tachar tareas! ✨</p>
+            <p className="text-form">¡Listo para tachar tareas! ✨</p>
             <form onSubmit={(event) => {
                 event.preventDefault();
                 validate();
