@@ -10,79 +10,281 @@ body {
     justify-content: center;
 }
 
+/* Componente Login */
 
-div {
-    width: 80%;
+.login-container {
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin: auto; 
 }
-  
-img {
+
+.login-container img {
     width: 140px; 
     margin-bottom: 30px; 
 }
 
-h2 {
+.login-container h2 {
     font-size: 1.5em;
     margin-bottom: 10px;
 }
 
-
-form {
-    width: 50%;
+.login-container form {
+    width: 100%;
     display: grid;
     grid-gap: 10px;
     justify-items: center; 
-    margin: 20px auto; /* Agregado un margen superior e inferior */
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
+}
 
-  }
-  
-  label, input {
+.login-container label, .login-container input {
     width: 100%;
     margin-bottom: 10px;
-  }
-  
-  input {
+}
+
+.login-container input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
-  
-  input[type="submit"] {
-    background-color: coral;
+}
+
+.login-container input[type="submit"] {
+    background-color: #CA9178; 
     color: #fff;
     cursor: pointer;
     border: none;
     border-radius: 5px;
     padding: 10px;
-  }
-  
-  input[type="submit"]:hover {
-    background-color: #CA9178;
-  }
-  
-  .text-red-600 {
-    color: #e53e3e; /* O el color que prefieras para los mensajes de error */
-  }
+}
 
-  @media only screen and (max-width: 600px) {
-    div {
-      width: 100%;
+.login-container input[type="submit"]:hover {
+    background-color: #BD7D61; 
+}
+
+.login-container .text-red-600 {
+    color: #e53e3e;
+}
+
+/* Componente tarea */
+.form-tarea {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.form-tarea label,
+.form-tarea input,
+.form-tarea p {
+    margin: 5px 10px;
+    min-width: 100px; 
+
+.form-tarea input[type="submit"],
+.form-tarea .crear-tarea-button {
+    background-color: #CA9178; 
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.form-tarea input[type="submit"]:hover,
+.form-tarea .crear-tarea-button:hover {
+    background-color: #BD7D61; /
+}
+
+/* Componente items */
+.lista-item {
+    padding: 0;
+}
+
+.lista-item li {
+    list-style: none;
+    margin: 10px 0;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.lista-item li:hover {
+    background-color: #f9f9f9;
+}
+
+.lista-item li button {
+    background-color: #f0f0f0; 
+    color: #333; 
+    border: none;
+    padding: 8px;
+    margin-left: 380px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.lista-item li button:hover {
+    background-color: #e0e0e0; 
+}
+
+.lista-item li a {
+    text-decoration: none;
+    color: #3498db;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.lista-item li a:hover {
+    text-decoration: underline;
+}
+
+.lista-item {
+    text-align: center;
+    line-height: 2; 
+}
+
+.lista-item img {
+    vertical-align: middle;
+    max-width: 80%;
+    height: auto;
+}
+
+/*componente editar tarea*/
+.editar-tarea {
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.editar-tarea h1 {
+    font-size: 1.5em; 
+    margin-bottom: 15px; 
+    color: #333; 
+}
+
+.editar-tarea form {
+    grid-gap: 10px;
+    justify-items: center;
+}
+
+.editar-tarea label {
+    width: 100%;
+    margin-bottom: 10px;
+    display: block;
+    font-weight: bold;
+    text-align: left; 
+    color: #555; 
+}
+
+.editar-tarea textarea {
+    width: calc(100% - 20px); 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+
+.editar-tarea input[type="submit"] {
+    width: calc(100% - 20px); 
+    background-color: #CA9178;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.editar-tarea input[type="submit"]:hover {
+    background-color: #BD7D61;
+}
+
+.titulo-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.titulo-form h2 {
+    align-self: center;
+}
+
+@media only screen and (max-width: 600px) {
+    /* Componente Login */
+    .login-container {
+        width: 100%;
     }
-  
-    form {
-      width: 80%;
+
+    .login-container form {
+        width: 80%;
     }
-    img {
-        width: 160px; /* Ajusta el tamaño según tus preferencias para dispositivos móviles */
-        margin-bottom: 30px; /* Ajusta el margen inferior según tus preferencias para dispositivos móviles */
-      }
-  }
+
+    .login-container img {
+        width: 160px;
+        margin-bottom: 30px;
+    }
+
+    /* Componente tarea */
+    .form-tarea {
+        flex-direction: column;
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+    }
+
+    .form-tarea p {
+        font-size: 18px; 
+    }
+
+    .form-tarea form {
+        display: flex;
+        flex-direction: column;
+        min-width: 80%;
+    }
+
+    .form-tarea label,
+    .form-tarea input,
+    .form-tarea p {
+        margin: 10px 0;
+    }
+
+    .form-tarea input[type="submit"],
+    .form-tarea .crear-tarea-button {
+        margin-left: 0;
+    }
+
+    /* Componente items */
+    .lista-item li {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .lista-item li button {
+        margin-left: 0;
+    }
+
+    /* Componente editar tarea */
+    .editar-tarea {
+        width: 80%;
+    }
+
+    .editar-tarea form {
+        width: 100%;
+    }
+
+    .editar-tarea textarea {
+        width: 100%;
+    }
+
+}

@@ -32,7 +32,7 @@ export function Login() {
     }
 
     return (
-        <div>
+        <div class="login-container">
         <img src="/img/icono.png"></img>
             <h2>¡Bienvenid@!</h2>
             <p className="text-form"> Inicia sesión para organizar tu día</p>
@@ -44,7 +44,7 @@ export function Login() {
                 <input type="text" id="user" ref={userRef}/>
                 <label htmlFor="password">Contraseña</label>
                 <input type="password" id="password" ref={passwordRef}/>
-                <input type="submit" value="Login"/>
+                <input type="submit" value="Empezar"/>
                 {error && <p className="text-red-600">{error}</p>}
             </form>
         </div>

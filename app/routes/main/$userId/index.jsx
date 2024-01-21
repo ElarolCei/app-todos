@@ -27,7 +27,7 @@ export default function Main() {
     }, []);
 
     return (
-        <div>
+        <div className="titulo-form">
             <h2 className="text-xl font-bold">{"Bienvenid@"} {user.username}</h2>
             <CreateItem user={user} loadUser={loadUser}/>
             <ItemList user={user} loadUser={loadUser}/>

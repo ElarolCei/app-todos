@@ -22,16 +22,20 @@ export function ItemList({user, loadUser}) {
     };
 
     return user && user.items ? (
-        <ol>
+        <ol className="lista-item">
             {user.items.map((item, index) => (
                 <li key={index} style={error === index ? style : {}}>
-                    {item.name}
-                    <button onClick={() => deleteItem(item.id)}>X</button>
-                    <Link to={`/main/${user.id}/edit-item/${item.id}`}>Editar</Link>
+                    <p>{item.name}</p>
+                    <div>
+                        <button onClick={() => deleteItem(item.id)}>X</button>
+                        <Link to={`/main/${user.id}/edit-item/${item.id}`}>Editar</Link>
+                    </div>
                 </li>
             ))}
         </ol>
+        
     ) : (
         <h2>Cargando...</h2>
+        
     );
 }

@@ -44,8 +44,8 @@ export default function EditItem() {
     }
 
     return (
-        <div>
-            <h1>Editar tarea</h1>
+        <div class="editar-tarea">
+            <h1>Edita el nombre</h1>
             <form
                 onSubmit={(event) => {
                     event.preventDefault();
