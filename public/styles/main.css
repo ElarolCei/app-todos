@@ -82,7 +82,8 @@ body {
 .form-tarea input,
 .form-tarea p {
     margin: 5px 10px;
-    min-width: 100px; 
+    min-width: 100px;
+}
 
 .form-tarea input[type="submit"],
 .form-tarea .crear-tarea-button {
