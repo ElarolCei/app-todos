@@ -12,7 +12,7 @@ export function Login() {
             password: passwordRef.current.value,
         };
         console.log('Credentials: ' + JSON.stringify(data));
-        fetch(`http://localhost:3000/login`, {
+        fetch(`/login`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {

@@ -11,7 +11,7 @@ export default function EditItem() {
 
     useEffect(() => {
         async function loadItem() {
-            const response = await fetch(`http://localhost:3000/users/${userId}/items/${id}`);
+            const response = await fetch(`/users/${userId}/items/${id}`);
             if (response.ok) {
                 const item = response.json().then(body => {
                     textAreaRef.current.value = body.name
@@ -30,7 +30,7 @@ export default function EditItem() {
             name: textAreaRef.current.value,
         };
 
-        const response = await fetch(`http://localhost:3000/users/${userId}/items/${id}`, {
+        const response = await fetch(`/users/${userId}/items/${id}`, {
             method: 'PUT',
             body: JSON.stringify(datos),
             headers: {

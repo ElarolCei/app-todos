@@ -17,7 +17,7 @@ export function CreateItem({user, loadUser}) {
             },
         };
 
-        const response = await fetch(`http://localhost:3000/users/${user.id}/items`, options);
+        const response = await fetch(`/users/${user.id}/items`, options);
         if (response.ok) {
             inputRef.current.value = "";
             loadUser();

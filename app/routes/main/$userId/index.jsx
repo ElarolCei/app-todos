@@ -13,7 +13,7 @@ export default function Main() {
     const [user, setUser] = useState([]);
 
     function loadUser() {
-        fetch(`http://localhost:3000/users/${userId}`)
+        fetch(`/users/${userId}`)
             .then((response) => response.json())
             .then((data) => setUser(data));
     }

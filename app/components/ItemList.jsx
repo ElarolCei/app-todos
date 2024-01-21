@@ -8,7 +8,7 @@ export function ItemList({user, loadUser}) {
         const options = {
             method: "DELETE",
         };
-        const response = await fetch(`http://localhost:3000/users/${user.id}/items/${itemId}`, options);
+        const response = await fetch(`/users/${user.id}/items/${itemId}`, options);
         if (response.ok) {
             loadUser();
         } else {
