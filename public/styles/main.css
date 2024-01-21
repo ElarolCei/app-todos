@@ -10,95 +10,79 @@ body {
     justify-content: center;
 }
 
-h2 {
-    color: #333;
-    font-size: 1.5em;
-    margin-bottom: 0.5em;
+
+div {
+    width: 80%;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+  
+img {
+    width: 140px; 
+    margin-bottom: 30px; 
 }
 
-.text-form {
-    text-align: center;
-    color: #555;
-    font-size: 1.2em;
-    margin-top: 0;
+h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
 }
+
 
 form {
-    width: 100%; /* El formulario ocupa el ancho total */
+    width: 50%;
+    display: grid;
+    grid-gap: 10px;
+    justify-items: center; 
     margin: 20px auto; /* Agregado un margen superior e inferior */
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
-}
 
-label {
-    display: block;
-    margin-bottom: 8px;
-}
-
-input {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-input[type="submit"] {
-    background-color: coral;
-    color: white;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    display: block; /* Convertido a un elemento de bloque para centrarlo */
-    margin: 0 auto; /* Centrado horizontalmente */
-}
-
-input[type="submit"]:hover {
-    background-color: #d16666; /* Un tono más oscuro que el botón normal */
-}
-
-.text-red-600 {
-    color: #e53e3e;
-    margin-top: 8px;
-}
-
-ol {
-    list-style: none;
-    padding: 0;
-}
-
-li {
+  }
+  
+  label, input {
+    width: 100%;
     margin-bottom: 10px;
+  }
+  
+  input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #f9f9f9;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-li button {
+  }
+  
+  input[type="submit"] {
     background-color: coral;
-    color: white;
+    color: #fff;
     cursor: pointer;
     border: none;
     border-radius: 5px;
-}
+    padding: 10px;
+  }
+  
+  input[type="submit"]:hover {
+    background-color: #CA9178;
+  }
+  
+  .text-red-600 {
+    color: #e53e3e; /* O el color que prefieras para los mensajes de error */
+  }
 
-li button:hover {
-    background-color: #d16666; /* Un tono más oscuro que el botón normal */
-}
-
-/* Estilo adicional para elementos con error */
-li.error {
-    border-color: #e53e3e;
-    background-color: #f8d7da;
-    color: #721c24;
-}
- 
+  @media only screen and (max-width: 600px) {
+    div {
+      width: 100%;
+    }
+  
+    form {
+      width: 80%;
+    }
+    img {
+        width: 160px; /* Ajusta el tamaño según tus preferencias para dispositivos móviles */
+        margin-bottom: 30px; /* Ajusta el margen inferior según tus preferencias para dispositivos móviles */
+      }
+  }

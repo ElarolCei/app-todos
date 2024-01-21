@@ -33,8 +33,9 @@ export function Login() {
 
     return (
         <div>
-            <h2>Bienvenid@</h2>
-            <p className="text-form">¡Listo para tachar tareas! ✨</p>
+        <img src="/img/icono.png"></img>
+            <h2>¡Bienvenid@!</h2>
+            <p className="text-form"> Inicia sesión para organizar tu día</p>
             <form onSubmit={(event) => {
                 event.preventDefault();
                 validate();
